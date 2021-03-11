@@ -1,22 +1,22 @@
 // Утилиты для упрощения работы с DOM деревом
 
 class Dom {
-    constructor(selector){
+    constructor(selector) {
         this.$el = typeof selector === 'string'
-        ? document.querySelector(selector)
-        : selector
+            ? document.querySelector(selector)
+            : selector
     }
 
     html(html) {
         if (typeof html === 'string') {
             this.$el.innerHTML = html
             return this
-        } 
+        }
         return this.$el.outerHTML.trim()
     }
 
     on(eventType, callback) {
-        this.$el.addEventListener(eventType, callback) 
+        this.$el.addEventListener(eventType, callback)
     }
 
     off(eventType, callback) {
@@ -29,7 +29,7 @@ class Dom {
     }
 
     append(node) {
-        if (node  instanceof Dom) {
+        if (node instanceof Dom) {
             node = node.$el
         }
         if (Element.prototype.append) {
@@ -40,16 +40,48 @@ class Dom {
 
         return this
     }
+
+    closest(selector) {
+        return $(this.$el.closest(selector))
+    }
+
+    getCoords() {
+        return this.$el.getBoundingClientRect()
+    }
+
+    get data() {
+        return this.$el.dataset
+    }
+
+    findAll(selector) {
+        return this.$el.querySelectorAll(selector)
+    }
+
+    css(styles = {}) {
+
+        // Устаревший метод hasOwnProperty и цикл for..in пробегает по свойствам прототипа объекта
+        // for (const key in styles) {
+        //     if (styles.hasOwnProperty(key)) {
+        //         console.log(key)
+        //         console.log(styles[key])
+        //     }
+        // }
+
+        Object
+            .keys(styles)
+            .forEach(key => this.$el.style[key] = styles[key]
+        )
+    }
 }
 
 export function $(selector) {
     return new Dom(selector)
 }
 
-$.create = (tagName, classes = '')=> {
+$.create = (tagName, classes = '') => {
 
     const el = document.createElement(tagName)
-    if(classes) {
+    if (classes) {
         el.classList.add(classes)
     }
 
