@@ -54,13 +54,10 @@ export function resizeHandler($root, event) {
             $root.findAll(`[data-col ="${$parent.$el.dataset.col}"]`)
                 .forEach(el => $(el).css({
                     width: value + 'px',
-                    backgroundColor: 'lightgreen'
                 }))
         } else {
             $parent.css({
                 height: value + 'px',
-                color: 'blue',
-                backgroundColor: 'lightblue'
             })
         }
 
