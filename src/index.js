@@ -3,12 +3,23 @@ import { Formula } from './components/excel/formula/Formula.js';
 import { Header } from './components/excel/header/Header.js';
 import { Table } from './components/excel/table/Table.js';
 import { Toolbar } from './components/excel/toolbar/Toolbar.js';
-import { Emitter } from './core/Emitter.js';
+import { createStore } from './core/createStore.js';
+import { storage, debounce } from './core/utils.js';
 import './module.js';
+import { initialState } from './redux/initialState.js';
+import { rootReducer } from './redux/rootReducer.js';
 import '/scss/index.scss';
 
 console.log('Begin')
 
+const store = createStore(rootReducer, initialState)
+
+const stateListener = debounce(state => {
+    console.log('State', store.getState())
+    storage('excel-state', state)
+}, 300)
+
+store.subscribe(stateListener)
 
 const excel = new Excel('#app', {
     components: [
@@ -16,7 +27,8 @@ const excel = new Excel('#app', {
         Toolbar,
         Formula,
         Table
-    ]
+    ],
+    store
 })
 
 excel.render()
