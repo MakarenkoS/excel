@@ -15,6 +15,6 @@
   //background-color: mediumaquamarine;
 
   .button {
-    @include button(green);
+    @include button(#f7a67e);
   }
 }
