@@ -1,11 +1,11 @@
 import { $ } from "../../core/dom"
 import { Emitter } from "../../core/Emitter"
 import { StoreSubscriber } from "../../core/StoreSubscriber"
+import { preventDefault } from "../../core/utils"
+import { updateDate } from "../../redux/actions"
 
 export class Excel {
-    constructor(selector, options) {
-        // Селектор для основного div
-        this.$el = $(selector)
+    constructor(options) {
 
         // Получаем список компонент
         this.components = options.components || []
@@ -41,27 +41,27 @@ export class Excel {
             $root.append($el)
             return component
         });
-       
-    
         return  $root
 
     }
 
-    render() {
+    init() {
         // this.$el.insertAdjacentHTML('afterbegin', '<h1> Hello </h1>')
         // const node = document.createElement('h1')
         // node.textContent = 'Test'
-       
-        
-        this.$el.append(this.getRoot())
+        console.log(process.env.NODE_ENV)
+        if (process.env.NODE_ENV === 'production') {
+            document.addEventListener('contextmenu', preventDefault)
+        }
+        this.store.dispatch(updateDate())
         this.subscriber.subscribeComponents(this.components)
         this.components.forEach(component => component.init());
     }
 
     destroy() {
-        debugger
         this.subscriber.unsubscribeFromStore()
         this.components.forEach(component => component.destroy());
+        document.removeEventListener('contextmenu', preventDefault)
     }
 
 }

@@ -1,37 +1,36 @@
-import { Excel } from './components/excel/Excel.js';
-import { Formula } from './components/excel/formula/Formula.js';
-import { Header } from './components/excel/header/Header.js';
-import { Table } from './components/excel/table/Table.js';
-import { Toolbar } from './components/excel/toolbar/Toolbar.js';
-import { createStore } from './core/createStore.js';
-import { storage, debounce } from './core/utils.js';
+import {Router} from './core/routes/Router'
 import './module.js';
-import { initialState } from './redux/initialState.js';
-import { rootReducer } from './redux/rootReducer.js';
 import '/scss/index.scss';
+import { DashboardPage } from './pages/DashboardPage.js';
+import { ExcelPage } from './pages/ExcelPage.js';
 
 console.log('Begin')
 
-const store = createStore(rootReducer, initialState)
-
-const stateListener = debounce(state => {
-    console.log('State', store.getState())
-    storage('excel-state', state)
-}, 300)
-
-store.subscribe(stateListener)
-
-const excel = new Excel('#app', {
-    components: [
-        Header,
-        Toolbar,
-        Formula,
-        Table
-    ],
-    store
+new Router('#app', {
+    dashboard: DashboardPage,
+    excel: ExcelPage
 })
 
-excel.render()
+// const store = createStore(rootReducer, initialState)
+
+// const stateListener = debounce(state => {
+//     console.log('State', store.getState())
+//     storage('excel-state', state)
+// }, 300)
+
+// store.subscribe(stateListener)
+
+// const excel = new Excel('#app', {
+//     components: [
+//         Header,
+//         Toolbar,
+//         Formula,
+//         Table
+//     ],
+//     store
+// })
+
+// excel.render()
 
 
 // Observer Test

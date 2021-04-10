@@ -29,7 +29,6 @@ export class Table extends ExcelComponent {
     }
 
     prepare() {
-        console.log('prepare')
     }
 
     init() {
