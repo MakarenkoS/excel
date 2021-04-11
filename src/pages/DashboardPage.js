@@ -1,5 +1,5 @@
 import { $ } from "../core/dom";
-import { Page } from "../core/Page";
+import { Page } from "../core/Page/Page";
 import { createRecordsTable } from "./dashboard.functions";
 
 
